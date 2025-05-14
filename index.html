@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Your $100 Amazon Gift Card | Exclusive Offer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#FF9900',
+                            dark: '#146EB4',
+                            light: '#F3D078'
+                        },
+                        secondary: {
+                            DEFAULT: '#6E45E2',
+                            light: '#88D3CE'
+                        },
+                        dark: {
+                            DEFAULT: '#1A1A2E',
+                            light: '#16213E'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'progress-load': 'progress 5s linear forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'bounce-slow': 'bounceSlow 2s infinite'
+                    },
+                    keyframes: {
+                        progress: {
+                            '0%': { width: '0%' },
+                            '100%': { width: '100%' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        bounceSlow: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .neumorphic-card {
+            background: linear-gradient(145deg, #1F1F3A, #1A1A2E);
+            border-radius: 20px;
+            box-shadow:  10px 10px 20px #0d0d1a,
+                        -10px -10px 20px #272742;
+            transition: all 0.3s ease;
+        }
+        
+        .gift-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            perspective: 1000px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .gift-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-claim {
+            background: linear-gradient(45deg, #FF9900, #FF6B00);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-claim:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.6);
+            background: linear-gradient(45deg, #FF9900, #FF6B00);
+        }
+        
+        .btn-claim:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(255, 153, 0, 0.4);
+        }
+        
+        .btn-claim::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-claim:hover::after {
+            left: 100%;
+        }
+        
+        .verification-popup {
+            animation: fadeIn 0.3s ease-out;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #FF9900, #FF6B00);
+        }
+        
+        .countdown-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            min-width: 60px;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid rgba(255,153,0,0.5);
+            border-radius: 50%;
+            animation: pulseRing 3s ease-out infinite;
+        }
+        
+        @keyframes pulseRing {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            70%, 100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FF9900;
+            opacity: 0;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255,153,0,0.7);
+        }
+        
+        .offer-badge {
+            background: linear-gradient(45deg, #FF6B00, #FF9900);
+            transform: rotate(-5deg);
+            box-shadow: 0 4px 15px rgba(255,107,0,0.5);
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden">
+    <!-- Floating background elements -->
+    <div class="floating-shapes top-1/4 left-1/4 w-32 h-32 rounded-full bg-primary blur-3xl opacity-10 animate-float"></div>
+    <div class="floating-shapes top-1/3 right-1/4 w-40 h-40 rounded-full bg-secondary blur-3xl opacity-10 animate-float" style="animation-delay: 1s;"></div>
+    <div class="floating-shapes bottom-1/4 right-1/3 w-28 h-28 rounded-full bg-primary-dark blur-3xl opacity-10 animate-float" style="animation-delay: 2s;"></div>
+    
+    <!-- Main content -->
+    <div class="container mx-auto px-4 py-12 min-h-screen flex flex-col justify-center items-center relative z-10">
+        <!-- Header with countdown -->
+        <div class="w-full max-w-4xl mb-8">
+            <div class="neumorphic-card p-6 mb-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold mb-2">Exclusive <span class="text-primary glow-text">$100 Amazon</span> Gift Card</h1>
+                        <p class="text-gray-300">Limited time offer for new users only</p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <p class="text-gray-400 text-sm mb-2">Offer expires in:</p>
+                        <div class="flex gap-2">
+                            <div class="countdown-item p-2 text-center">
+                                <div class="font-bold text-xl text-primary">03</div>
+                                <div class="text-xs text-gray-400">HOURS</div>
+                            </div>
+                            <div class="countdown-item p-2 text-center">
+                                <div class="font-bold text-xl text-primary">45</div>
+                                <div class="text-xs text-gray-400">MINS</div>
+                            </div>
+                            <div class="countdown-item p-2 text-center">
+                                <div class="font-bold text-xl text-primary">22</div>
+                                <div class="text-xs text-gray-400">SECS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main card -->
+        <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Gift Card Section -->
+            <div class="neumorphic-card p-6 relative overflow-hidden">
+                <div class="absolute -top-4 -right-4 offer-badge px-4 py-2 rounded-full text-white font-bold text-sm">
+                    HOT OFFER!
+                </div>
+                <div class="gift-card bg-dark-light rounded-xl overflow-hidden transition-all duration-300 h-full">
+                    <div class="relative">
+                        <img src="https://i.postimg.cc/xdJ2knKt/100-amazon-gift-card-removebg-preview.png" alt="$100 Amazon Gift Card" class="w-full h-48 object-cover rounded-t-xl">
+                        <div class="absolute bottom-4 left-4">
+                            <div class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md flex items-center">
+                                <i class="fas fa-bolt mr-1"></i>
+                                <span>Instant Delivery</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold">Amazon Gift Card</h2>
+                            <span class="text-3xl font-bold text-primary">$100</span>
+                        </div>
+                        <p class="text-gray-400 mb-6">Redeemable for millions of items at Amazon.com. No expiration date!</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center mr-3 border border-gray-700">
+                                    <i class="fas fa-globe text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Worldwide</p>
+                                    <p class="text-sm text-gray-500">Works in all countries</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center mr-3 border border-gray-700">
+                                    <i class="fas fa-gift text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Digital Delivery</p>
+                                    <p class="text-sm text-gray-500">Code sent via email</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Verification Steps -->
+            <div class="neumorphic-card p-6">
+                <h3 class="text-xl font-bold mb-6 flex items-center">
+                    <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-3">1</span>
+                    Complete Verification
+                </h3>
+                
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-dark-light flex items-center justify-center text-primary mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Click the "Claim Now" button</p>
+                            <p class="text-sm text-gray-400">Start the verification process</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-dark-light flex items-center justify-center text-primary mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Complete human verification</p>
+                            <p class="text-sm text-gray-400">Takes less than 30 seconds</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-dark-light flex items-center justify-center text-gray-500 mr-3 mt-1">
+                            <i class="fas fa-spinner animate-spin"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Receive your gift card</p>
+                            <p class="text-sm text-gray-400">Digital code sent instantly</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-dark-light rounded-xl p-4 mb-6">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-users text-primary mr-2"></i>
+                        <span class="font-medium">124 people claimed today</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">Only 36 remaining at this price</p>
+                </div>
+                
+                <div class="relative">
+                    <button id="claimBtn" class="btn-claim text-white font-bold py-4 px-8 rounded-xl text-lg w-full relative overflow-hidden group mb-2 animate-bounce-slow">
+                        <span class="relative z-10 flex items-center justify-center">
+                            <span class="mr-2">CLAIM YOUR GIFT CARD</span>
+                            <i class="fas fa-gift"></i>
+                        </span>
+                    </button>
+                    <div class="pulse-ring"></div>
+                </div>
+                
+                <div class="flex items-center justify-center text-xs text-gray-400 mt-3">
+                    <i class="fas fa-lock mr-1"></i>
+                    <span>Secure & Encrypted Verification</span>
+              
+                </div>
+            </div>
+        </div>
+        
+        <!-- Testimonials -->
+        <div class="w-full max-w-4xl mb-12">
+            <h3 class="text-xl font-bold mb-6 text-center">What People Are Saying</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="neumorphic-card p-4 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                            J
+                        </div>
+                        <div>
+                            <p class="font-medium">John D.</p>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">"Got my code in under a minute! Used it to buy a new Kindle. Totally legit!"</p>
+                </div>
+                
+                <div class="neumorphic-card p-4 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-white mr-3">
+                            S
+                        </div>
+                        <div>
+                            <p class="font-medium">Sarah M.</p>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">"Easy verification process. The code worked perfectly on my Amazon account."</p>
+                </div>
+                
+                <div class="neumorphic-card p-4 rounded-xl">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-primary-dark flex items-center justify-center text-white mr-3">
+                            M
+                        </div>
+                        <div>
+                            <p class="font-medium">Mike T.</p>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm">"Couldn't believe it was real until I saw the balance in my account. Amazing!"</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ -->
+        <div class="w-full max-w-4xl">
+            <h3 class="text-xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
+            <div class="neumorphic-card p-6 rounded-xl">
+                <div class="space-y-4">
+                    <div class="border-b border-gray-700 pb-4">
+                        <button class="flex justify-between items-center w-full text-left">
+                            <span class="font-medium">Is this offer really free?</span>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </button>
+                        <p class="text-gray-400 text-sm mt-2 hidden">Yes! This is a promotional offer sponsored by Amazon. You only need to complete a quick human verification to prevent abuse.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-700 pb-4">
+                        <button class="flex justify-between items-center w-full text-left">
+                            <span class="font-medium">How long does delivery take?</span>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </button>
+                        <p class="text-gray-400 text-sm mt-2 hidden">The digital gift card code is delivered instantly via email after successful verification, typically within 1-2 minutes.</p>
+                    </div>
+                    
+                    <div class="border-b border-gray-700 pb-4">
+                        <button class="flex justify-between items-center w-full text-left">
+                            <span class="font-medium">Can I use this outside the US?</span>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </button>
+                        <p class="text-gray-400 text-sm mt-2 hidden">Absolutely! Amazon gift cards can be redeemed on any Amazon marketplace worldwide, including Amazon UK, DE, FR, JP, etc.</p>
+                    </div>
+                    
+                    <div>
+                        <button class="flex justify-between items-center w-full text-left">
+                            <span class="font-medium">What can I buy with this gift card?</span>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </button>
+                        <p class="text-gray-400 text-sm mt-2 hidden">You can purchase any physical or digital product sold by Amazon, including electronics, books, games, subscriptions, and more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Verification Popup -->
+    <div id="verificationPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden verification-popup">
+        <div class="neumorphic-card p-8 rounded-xl max-w-md w-full mx-4 relative">
+            <button id="closePopup" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center">
+                <div class="relative mx-auto mb-6 w-24 h-24">
+                    <div class="absolute inset-0 bg-primary-dark rounded-full opacity-20 animate-ping"></div>
+                    <div class="absolute inset-2 bg-primary rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-shield text-white text-3xl"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Almost There!</h3>
+                <p class="text-gray-400 mb-6">We're verifying your request. Please wait 5 seconds...</p>
+                
+                <div class="bg-dark-light rounded-full h-3 mb-6 overflow-hidden">
+                    <div id="progressBar" class="progress-bar h-full rounded-full w-0"></div>
+                </div>
+                
+                <div class="bg-dark-light rounded-xl p-4">
+                    <div class="flex items-center justify-center text-sm">
+                        <i class="fas fa-shield-alt text-primary mr-2"></i>
+                        <span>Secure Verification in Progress</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confetti elements (hidden) -->
+    <div id="confettiContainer" class="fixed inset-0 pointer-events-none z-50 hidden"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const claimBtn = document.getElementById('claimBtn');
+            const verificationPopup = document.getElementById('verificationPopup');
+            const closePopup = document.getElementById('closePopup');
+            const progressBar = document.getElementById('progressBar');
+            const confettiContainer = document.getElementById('confettiContainer');
+            
+            // FAQ accordion functionality
+            const faqButtons = document.querySelectorAll('.neumorphic-card button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    answer.classList.toggle('hidden');
+                    
+                    // Rotate chevron
+                    const chevron = button.querySelector('i');
+                    chevron.classList.toggle('transform');
+                    chevron.classList.toggle('rotate-180');
+                });
+            });
+            
+            // Countdown timer
+            function updateCountdown() {
+                let hours = 3;
+                let minutes = 45;
+                let seconds = 22;
+                
+                const countdown = setInterval(() => {
+                    seconds--;
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                    }
+                    if (hours < 0) {
+                        clearInterval(countdown);
+                        return;
+                    }
+                    
+                    document.querySelectorAll('.countdown-item div:first-child').forEach((el, index) => {
+                        if (index === 0) el.textContent = hours.toString().padStart(2, '0');
+                        if (index === 1) el.textContent = minutes.toString().padStart(2, '0');
+                        if (index === 2) el.textContent = seconds.toString().padStart(2, '0');
+                    });
+                }, 1000);
+            }
+            updateCountdown();
+            
+            // Claim button click handler
+            claimBtn.addEventListener('click', function() {
+                // Show verification popup
+                verificationPopup.classList.remove('hidden');
+                
+                // Start progress bar animation
+                progressBar.classList.add('animate-progress-load');
+                
+                // Create confetti after delay
+                setTimeout(createConfetti, 4500);
+                
+                // Redirect after progress completes
+                setTimeout(function() {
+                    window.location.href ='https://locked2.com/cl/i/99nqor';
+                }, 5000);
+            });
+            
+            // Close popup handler
+            closePopup.addEventListener('click', function() {
+                verificationPopup.classList.add('hidden');
+                progressBar.classList.remove('animate-progress-load');
+                progressBar.style.width = '0%';
+                confettiContainer.classList.add('hidden');
+            });
+            
+            // Create confetti effect
+            function createConfetti() {
+                confettiContainer.innerHTML = '';
+                confettiContainer.classList.remove('hidden');
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 20}, 100%, 50%)`;
+                    confetti.style.opacity = Math.random() * 0.5 + 0.5;
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    const animation = confetti.animate([
+                        { top: '-10px', opacity: 1 },
+                        { top: '100vh', opacity: 0 }
+                    ], {
+                        duration: Math.random() * 3000 + 2000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+                    });
+                    
+                    confettiContainer.appendChild(confetti);
+                    
+                    animation.onfinish = () => {
+                        confetti.remove();
+                    };
+                }
+            }
+        });
+    </script>
+</body>
+</html>
